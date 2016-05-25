@@ -1,7 +1,5 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -9,11 +7,13 @@ import java.util.Set;
 public class StringReader {
 
 public static String key, keyLow, str, strLow;	
-//public static HashSet<String> keySet;
-static Set<String> keySet = new HashSet();
+static Set<String> keySet;
+static ArrayList<String> keyList = new ArrayList();
+static String[] keyMassGeneral;
 
 public static void keyWord(){
 	System.out.println("Введите ключевое слово:");
+	keySet = new HashSet();
 	Scanner in = new Scanner(System.in);
 	key = in.nextLine();
 	keyLow = key.toLowerCase(); //Сравнение с ключом вне зависимости от регистра.
@@ -25,27 +25,30 @@ public static void keyWord(){
 		keySet.add(keyMass[i]);
 		//System.out.println(keySet);
 	}
+	keyList.addAll(keySet);
 }
 
 public static void filterByKey(){
-	while(true){
-		System.out.println("Введите строку:");
-		Scanner in = new Scanner(System.in);
-		str = in.nextLine();
-		strLow = str.toLowerCase();
-		in.close();
-		if(strLow.contains(keyLow)){
-			System.out.println(str);
-		} else if (str.equals("Exit")) {
-			System.exit(1);
+	boolean test = false;	
+	System.out.println("Введите строку:");
+	Scanner in = new Scanner(System.in);
+	str = in.nextLine();
+	strLow = str.toLowerCase();
+	//in.close();
+	for(int i = 0; i < keyList.size(); i++){
+		if(strLow.contains(keyList.get(i))){
+			test = true;
 		}
+	}
+	if(test == true){
+		System.out.println(str);
 	}
 }
 	public static void main(String[] args) {
-		
-		keyWord();
-		System.out.println(keySet);
-		filterByKey();
+		while(true){
+			keyWord();
+			filterByKey();
+		}
 	}
 
 }
